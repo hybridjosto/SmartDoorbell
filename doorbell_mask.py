@@ -56,7 +56,8 @@ def select_ROI(name, im):
     return s()
 
 
-picFolder = 'home/pi/Documents/SmartDoorbell/Pics/'
+picFolder = r'/home/pi/SmartDoorbell/Pics/'+'camera_location.jpg'
+print (picFolder)
 
 def mask_img(img):
 
@@ -65,6 +66,6 @@ def mask_img(img):
         bbox = select_ROI("Original", img)
         print(bbox)
     
-# works if image is in the same folder as the py file
-imgtomask = cv2.imread(folder + 'camera_location.jpg')
+
+imgtomask = cv2.imread(picFolder)
 test1 = mask_img(imgtomask)
