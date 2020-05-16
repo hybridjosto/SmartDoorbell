@@ -11,10 +11,10 @@ def mask_img(img):
 
     mask = np.zeros((img.shape[0], img.shape[1]), dtype="uint8")
 
-    pts = np.array([[151, 272], [346, 268], [355, 353], [246, 354]])
+    pts = np.array([[449, 315], [542, 318], [538, 365], [460, 358]])
     cv2.fillConvexPoly(mask, pts,255)
     
-    pts = np.array([[533, 350],[950, 364],[1021, 441],[755, 589]])
+    pts = np.array([[748, 426],[883, 432],[1018, 504],[916, 539],[898, 647],[827, 621],[838, 517]])
     cv2.fillConvexPoly(mask, pts,255)
 
     masked = cv2.bitwise_and(img, img, mask=mask)
