@@ -5,7 +5,7 @@ import time
 import os
 
 picFolder = '/home/pi/SmartDoorbell/Pics/'
-vidFolder = '/home/pi/SmartDoorbell/Videos/'
+vidFolder = '/home/pi/SmartDoorbell/Video/'
 
 def mask_img(img):
 
