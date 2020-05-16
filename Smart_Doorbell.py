@@ -4,8 +4,8 @@ import imutils
 import time
 import os
 
-picFolder = '/home/pi/Documents/PyFiles/SmartDoorbell/Pics/'
-vidFolder = '/home/pi/Documents/PyFiles/SmartDoorbell/Videos/'
+picFolder = '/home/pi/SmartDoorbell/Pics/'
+vidFolder = '/home/pi/SmartDoorbell/Videos/'
 
 def mask_img(img):
 
