@@ -41,7 +41,8 @@ while True:
 
     # take 1st and 2nd image to compare
 
-    command = 'raspistill -w 1280 -h 720 -vf -hf -t 1000 -tl 1000 -o ' + picFolder + 'test%0d.jpg'
+    command = 'raspistill -w 1280 -h 720 -vf -hf -t 1000 -tl 1000 -o '
+    + picFolder + 'test%0d.jpg'
 
     os.system(command)
 
@@ -76,12 +77,14 @@ while True:
         # define a unique name for the videofile
         timestr = time.strftime("doorbell-%Y%m%d-%H%M%S")
 
-        command2 = 'raspivid -t 10000 -w 1280 -h 720 -vf -hf -fps 30 -o ' + vidFolder + timestr + '.h264'
+        command2 = 'raspivid -t 10000 -w 1280 -h 720 -vf -hf -fps 30 -o '
+        + vidFolder + timestr + '.h264'
         os.system(command2)
 
         print("Finished recording, converting to mp4...")
 
-        command3 = 'MP4Box -fps 30 -add ' + timestr + '.h264 ' + timestr + '.mp4'
+        command3 = 'MP4Box -fps 30 -add ' + timestr + '.h264 ' + timestr
+        + '.mp4'
         # os.system(command3)
 
         print("Finished converting file, available for review")
