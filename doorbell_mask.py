@@ -4,6 +4,7 @@ import imutils
 import time
 import os
 
+
 class SelectROI(object):
     def __init__(self, name, im):
         self.image = im
@@ -51,21 +52,23 @@ class SelectROI(object):
         cv2.destroyWindow(self.winname)
         return self.coords if self.coords else None
 
+
 def select_ROI(name, im):
-    s=SelectROI(name, im)
+    s = SelectROI(name, im)
     return s()
 
 
-picFolder = r'/home/pi/SmartDoorbell/Pics/'+'camera_location.jpg'
+picFolder = r'/home/pi/SmartDoorbell/Pics/camera_location.jpg'
 print (picFolder)
+
 
 def mask_img(img):
 
-# This enables point selection printing coordinates to terminal
-    for i in range(0,4):
+    # This enables point selection printing coordinates to terminal
+    for i in range(0, 4):
         bbox = select_ROI("Original", img)
         print(bbox)
-    
+
 
 imgtomask = cv2.imread(picFolder)
 test1 = mask_img(imgtomask)
