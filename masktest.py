@@ -26,5 +26,5 @@ def mask_img(img):
 
 
 picFolder = r'/home/pi/SmartDoorbell/Pics/camera_location.jpg'
-file = cv2.imread(picFolder)
+file = cv2.show(picFolder)
 mask_img(file)
