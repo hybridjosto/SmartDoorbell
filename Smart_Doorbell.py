@@ -12,11 +12,11 @@ def mask_img(img):
 
     mask = np.zeros((img.shape[0], img.shape[1]), dtype="uint8")
 
-    pts = np.array([[449, 315], [542, 318], [538, 365], [460, 358]])
+    pts = np.array([[259, 314], [299, 339], [309, 375], [390, 380], [389, 332]])
     cv2.fillConvexPoly(mask, pts, 255)
 
-    pts = np.array([[748, 426], [883, 432], [1018, 504], [
-                   916, 539], [898, 647], [827, 621], [838, 517]])
+    pts = np.array([[729, 420], [977, 410], [1000, 551], 
+    [917, 583], [894, 712], [708, 637]])
     cv2.fillConvexPoly(mask, pts, 255)
 
     masked = cv2.bitwise_and(img, img, mask=mask)
@@ -41,8 +41,7 @@ while True:
 
     # take 1st and 2nd image to compare
 
-    command = 'raspistill -w 1280 -h 720 -vf -hf -t 1000 -tl 1000 -o '
-    + picFolder + 'test%0d.jpg'
+    command = 'raspistill -w 1280 -h 720 -vf -hf -t 1000 -tl 1000 -o ' + picFolder + 'test%0d.jpg'
 
     os.system(command)
 

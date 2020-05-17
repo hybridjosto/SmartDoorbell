@@ -1,19 +1,22 @@
 import numpy as np
 import cv2
 import imutils
+import os
 
+firstarray = np.array([[259, 314], [299, 339], [309, 375], [390, 380], [389, 332]])
+secondarray = np.array([[729, 420], [977, 410], [1000, 551], 
+    [917, 583], [894, 712], [708, 637]])
 
 def mask_img(img):
     # set up a blank mask array of zeros
     mask = np.zeros((img.shape[0], img.shape[1]), dtype="uint8")
 
     # load the first polygon
-    pts = np.array([[449, 315], [542, 318], [538, 365], [460, 358]])
+    pts = np.array(firstarray)
     cv2.fillConvexPoly(mask, pts, 255)
 
     # load the second polygon
-    pts = np.array([[748, 426], [883, 432], [1018, 504], [
-                   916, 539], [898, 647], [827, 621], [838, 517]])
+    pts = np.array(secondarray)
 
     cv2.fillConvexPoly(mask, pts, 255)
 
@@ -27,9 +30,17 @@ def mask_img(img):
 
     return masked, grey
 
-
 picFolder = r'/home/pi/SmartDoorbell/Pics/camera_location.jpg'
+command = 'raspistill -w 1280 -h 720 -vf -hf -o ' + picFolder
+
+os.system(command)
 image = cv2.imread(picFolder)
-cv2.imshow('image', image)
-cv2.waitKey()
-#mask_img(file)
+
+def show_results(img):
+    imgmod = cv2.polylines(img, [firstarray,secondarray], True, (255,120,255),1)
+    cv2.imshow('image', imgmod)
+    cv2.waitKey()
+
+show_results(image)    
+
+
