@@ -19,6 +19,7 @@ vidFolder = '/home/pi/SmartDoorbell/Video/'
 
 emailUser = emaildetails.smtpUser
 emailPass = emaildetails.smtpPass
+emailToAdd = emaildetails.toAdd
 
 print("Camera Running - press CTRL C to exit")
 Nothing = 0
@@ -45,8 +46,44 @@ def mask_img(img):
     return masked, grey
 
 
-def emailPics():
+def emailPics(pic_time):
     print("emailing images")
+    # To/from information
+    fromAdd = smtpUser
+    subject = 'Doorbell recording from: ' + pic_time 
+    msg = MIMEMultipart()
+    msg['Subject'] = subject
+    msg['From'] = fromAdd
+    msg['To'] = emailToAdd
+    msg.preamble = "Photo @ " + pic_time
+
+    # Email Text
+    body = MIMEText ("Image recorded at " + pic_time)
+    msg.attach(body)
+
+    # Attach image
+    fp = open('test0'.jpg','rb')
+    img = MIMEImage(fp.read())
+    fp.close()
+    msg.attach(img)
+
+    fp = open('test1'.jpg','rb')
+    img = MIMEImage(fp.read())
+    fp.close()
+    msg.attach(img)
+
+    #Send email
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+
+    s.ehlo()
+    s.starttls()
+    s.ehlo()
+
+    s.login(smtpUser, smtpPass)
+    s.sendmail(fromAdd, emailToAdd, msg.as_string())
+    s.quit()
+
+    print("Email has been sent")
 
 # Counter Variable for analysis
 counter = 0
@@ -110,6 +147,6 @@ while True:
         cv2.imwrite(picFolder + "masked1.jpg", masked1)
         cv2.imwrite(picFolder + "masked2.jpg", masked2)
 
-        emailPics() 
+        emailPics(timestr) 
     else:
         Nothing += 1
