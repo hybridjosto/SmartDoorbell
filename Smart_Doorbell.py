@@ -4,9 +4,24 @@ import imutils
 import time
 import os
 
+import smtplib
+from smtplib import SMTP
+from smtplib import SMTPException
+import email
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from emaildetails import smtpUser
+import emaildetails
+
 picFolder = '/home/pi/SmartDoorbell/Pics/'
 vidFolder = '/home/pi/SmartDoorbell/Video/'
 
+emailUser = emaildetails.smtpUser
+emailPass = emaildetails.smtpPass
+
+print("Camera Running - press CTRL C to exit")
+Nothing = 0
 
 def mask_img(img):
 
@@ -30,14 +45,17 @@ def mask_img(img):
     return masked, grey
 
 
+def emailPics():
+    print("emailing images")
+
 # Counter Variable for analysis
 counter = 0
 
 while True:
     counter = counter + 1
-    print ("  ")
-    print ("---- Times through loop since starting:" + str(counter) + " ----")
-    print ("  ")
+    # print ("  ")
+    # print ("---- Times through loop since starting:" + str(counter) + " ----")
+    # print ("  ")
 
     # take 1st and 2nd image to compare
 
@@ -45,7 +63,7 @@ while True:
 
     os.system(command)
 
-    print ("Captured First and Second Img for Analysis")
+    # print ("Captured First and Second Img for Analysis")
 
     # mask images
     test1 = cv2.imread(picFolder + "test0.jpg")
@@ -68,22 +86,20 @@ while True:
 
     # sum the detector array
     detector_total = np.uint64(np.sum(detector))
-    print ("detector total =", detector_total)
+    
 
     if detector_total > 30000:
-        print ("SmartDoorbell has detected something!")
-
+        print ("SmartDoorbell has detected something!", str(counter))
+        print ("detector total =", detector_total)
         # define a unique name for the videofile
         timestr = time.strftime("doorbell-%Y%m%d-%H%M%S")
 
-        command2 = 'raspivid -t 10000 -w 1280 -h 720 -vf -hf -fps 30 -o '
-        + vidFolder + timestr + '.h264'
+        command2 = 'raspivid -t 10000 -w 1280 -h 720 -vf -hf -fps 30 -o ' + vidFolder + timestr + '.h264'
         os.system(command2)
 
         print("Finished recording, converting to mp4...")
 
-        command3 = 'MP4Box -fps 30 -add ' + timestr + '.h264 ' + timestr
-        + '.mp4'
+        # command3 = 'MP4Box -fps 30 -add ' + timestr + '.h264 ' + timestr + '.mp4'
         # os.system(command3)
 
         print("Finished converting file, available for review")
@@ -93,5 +109,7 @@ while True:
         cv2.imwrite(picFolder + "grey2.jpg", grey2)
         cv2.imwrite(picFolder + "masked1.jpg", masked1)
         cv2.imwrite(picFolder + "masked2.jpg", masked2)
+
+        emailPics() 
     else:
-        print("Nothing detected yet...")
+        Nothing += 1
