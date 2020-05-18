@@ -79,7 +79,7 @@ def emailPics(pic_time):
     s.starttls()
     s.ehlo()
 
-    s.login(smtpUser, smtpPass)
+    s.login(emailUser, emailPass)
     s.sendmail(fromAdd, emailToAdd, msg.as_string())
     s.quit()
 
