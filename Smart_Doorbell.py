@@ -62,12 +62,12 @@ def emailPics(pic_time):
     msg.attach(body)
 
     # Attach image
-    fp = open('test0.jpg','rb')
+    fp = open(picFolder + 'test0.jpg','rb')
     img = MIMEImage(fp.read())
     fp.close()
     msg.attach(img)
 
-    fp = open('test1.jpg','rb')
+    fp = open(picFolder + 'test1.jpg','rb')
     img = MIMEImage(fp.read())
     fp.close()
     msg.attach(img)
