@@ -30,8 +30,8 @@ def mask_img(img):
 
     return masked, grey
 
-picFolder = r'/home/pi/SmartDoorbell/Pics/camera_location.jpg'
-command = 'raspistill -w 1280 -h 720 -vf -hf -o ' + picFolder
+picFolder = r'/home/pi/SmartDoorbell/Pics/'
+command = 'raspistill -w 1280 -h 720 -vf -hf -t 1000 -tl 1000 -o camera_location.jpg'
 
 os.system(command)
 image = cv2.imread(picFolder)

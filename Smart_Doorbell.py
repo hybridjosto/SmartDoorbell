@@ -11,15 +11,14 @@ import email
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
-from emaildetails import smtpUser
-import emaildetails
+import settings
 
 picFolder = '/home/pi/SmartDoorbell/Pics/'
 vidFolder = '/home/pi/SmartDoorbell/Video/'
 
-emailUser = emaildetails.smtpUser
-emailPass = emaildetails.smtpPass
-emailToAdd = emaildetails.toAdd
+emailUser = settings.smtpUser
+emailPass = settings.smtpPass
+emailToAdd = settings.toAdd
 
 print("Camera Running - press CTRL C to exit")
 Nothing = 0
@@ -28,11 +27,10 @@ def mask_img(img):
 
     mask = np.zeros((img.shape[0], img.shape[1]), dtype="uint8")
 
-    pts = np.array([[259, 314], [299, 339], [309, 375], [390, 380], [389, 332]])
+    pts = np.array(settings.array1)
     cv2.fillConvexPoly(mask, pts, 255)
 
-    pts = np.array([[729, 420], [977, 410], [1000, 551],
-                    [917, 583], [894, 712], [708, 637]])
+    pts = np.array(settings.array2)
     cv2.fillConvexPoly(mask, pts, 255)
 
     masked = cv2.bitwise_and(img, img, mask=mask)
@@ -49,7 +47,7 @@ def mask_img(img):
 def emailPics(pic_time):
     print("emailing images")
     # To/from information
-    fromAdd = smtpUser
+    fromAdd = emailUser
     subject = 'Doorbell recording from: ' + pic_time 
     msg = MIMEMultipart()
     msg['Subject'] = subject
@@ -126,18 +124,21 @@ while True:
     
 
     if detector_total > 30000:
-        print ("SmartDoorbell has detected something!", str(counter))
+        
         print ("detector total =", detector_total)
+
         # define a unique name for the videofile
         timestr = time.strftime("doorbell-%Y%m%d-%H%M%S")
+
+        print ("SmartDoorbell has detected something!", timestr)
 
         command2 = 'raspivid -t 10000 -w 1280 -h 720 -vf -hf -fps 30 -o ' + vidFolder + timestr + '.h264'
         os.system(command2)
 
         print("Finished recording, converting to mp4...")
 
-        # command3 = 'MP4Box -fps 30 -add ' + timestr + '.h264 ' + timestr + '.mp4'
-        # os.system(command3)
+        command3 = 'MP4Box -fps 30 -add ' + vidFolder + timestr + '.h264 ' + vidFolder + timestr + '.mp4'
+        os.system(command3)
 
         print("Finished converting file, available for review")
 
