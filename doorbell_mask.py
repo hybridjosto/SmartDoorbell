@@ -58,7 +58,7 @@ def select_ROI(name, im):
     return s()
 
 
-picFolder = r'/home/pi/SmartDoorbell/Pics/camera_location.jpg'
+picFolder = r'/home/pi/SmartDoorbell/camera_location.jpg'
 print (picFolder)
 
 

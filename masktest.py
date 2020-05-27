@@ -2,10 +2,10 @@ import numpy as np
 import cv2
 import imutils
 import os
+import settings
 
-firstarray = np.array([[259, 314], [299, 339], [309, 375], [390, 380], [389, 332]])
-secondarray = np.array([[729, 420], [977, 410], [1000, 551], 
-    [917, 583], [894, 712], [708, 637]])
+firstarray = np.array(settings.array1)
+secondarray = np.array(settings.array2)
 
 def mask_img(img):
     # set up a blank mask array of zeros
@@ -30,7 +30,7 @@ def mask_img(img):
 
     return masked, grey
 
-picFolder = r'/home/pi/SmartDoorbell/Pics/'
+picFolder = r'/home/pi/SmartDoorbell/camera_location.jpg'
 command = 'raspistill -w 1280 -h 720 -vf -hf -t 1000 -tl 1000 -o camera_location.jpg'
 
 os.system(command)
